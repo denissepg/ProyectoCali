@@ -22,7 +22,7 @@
  * 		\brief      This script create a xml checksum file
  */
 
-if (! defined('NOREQUIREDB')) define('NOREQUIREDB', '1');	// Do not create database handler $db
+if (! defined('NOREQUIREDB')) { define('NOREQUIREDB', '1'); }	// Do not create database handler $db
 
 $sapi_type = php_sapi_name();
 $script_file = basename(__FILE__);
@@ -54,7 +54,7 @@ parse_str($argv[1]);
 
 $i=0;
 while ($i < $argc) {
-    if (! empty($argv[$i])) parse_str($argv[$i]);
+    if (! empty($argv[$i])) { parse_str($argv[$i]); }
     if (preg_match('/includeconstant=/', $argv[$i])) {
         $tmp=explode(':', $includeconstant, 3);
         if (count($tmp) != 3) {
@@ -78,7 +78,7 @@ $savrelease = $release;
 $tmpver=explode('-', $release, 2);
 if ($tmpver[0] == 'auto' || $tmpver[0] == 'autostable') {
     $release=DOL_VERSION;
-    if ($tmpver[1] && $tmpver[0] == 'auto') $release.='-'.$tmpver[1];
+    if ($tmpver[1] && $tmpver[0] == 'auto') { $release.='-'.$tmpver[1];}
 }
 
 if (empty($includecustom)) {
@@ -116,7 +116,7 @@ foreach ($includeconstants as $countrycode => $tmp) {
 }
 print "\n";
 
-//$outputfile=dirname(__FILE__).'/../htdocs/install/filelist-'.$release.'.xml';
+
 $outputdir=dirname(dirname(__FILE__)).'/htdocs/install';
 print 'Delete current files '.$outputdir.'/filelist*.xml'."\n";
 dol_delete_file($outputdir.'/filelist*.xml', 0, 1, 1);
@@ -140,7 +140,7 @@ foreach ($includeconstants as $countrycode => $tmp) {
 
 fputs($fp, '<dolibarr_htdocs_dir includecustom="'.$includecustom.'">'."\n");
 
-/*$dir_iterator1 = new RecursiveDirectoryIterator(dirname(__FILE__).'/../htdocs/');
+
 $iterator1 = new RecursiveIteratorIterator($dir_iterator1);
 // Need to ignore document custom etc. Note: this also ignore natively symbolic links.
 $files = new RegexIterator($iterator1, '#^(?:[A-Z]:)?(?:/(?!(?:'.($includecustom?'':'custom\/|').'documents\/|conf\/|install\/))[^/]+)+/[^/]+\.(?:php|css|html|js|json|tpl|jpg|png|gif|sql|lang)$#i');
@@ -152,11 +152,11 @@ $dir='';
 $needtoclose=0;
 foreach ($files as $filetmp) {
     $file = $filetmp['fullname'];
-    //$newdir = str_replace(dirname(__FILE__).'/../htdocs', '', dirname($file));
+    
     $newdir = str_replace(DOL_DOCUMENT_ROOT, '', dirname($file));
     if ($newdir!=$dir) {
-        if ($needtoclose)
-            fputs($fp, '  </dir>'."\n");
+        if ($needtoclose){
+            fputs($fp, '  </dir>'."\n");}
         fputs($fp, '  <dir name="'.$newdir.'" >'."\n");
         $dir = $newdir;
         $needtoclose=1;
@@ -171,7 +171,7 @@ fputs($fp, '  </dir>'."\n");
 fputs($fp, '</dolibarr_htdocs_dir>'."\n");
 
 asort($checksumconcat); // Sort list of checksum
-//var_dump($checksumconcat);
+
 fputs($fp, '<dolibarr_htdocs_dir_checksum>'."\n");
 fputs($fp, md5(join(',', $checksumconcat))."\n");
 fputs($fp, '</dolibarr_htdocs_dir_checksum>'."\n");
@@ -182,7 +182,7 @@ $checksumconcat=array();
 fputs($fp, '<dolibarr_script_dir version="'.$release.'">'."\n");
 
 // TODO Replace RecursiveDirectoryIterator with dol_dir_list
-/*$dir_iterator2 = new RecursiveDirectoryIterator(dirname(__FILE__).'/../scripts/');
+
 $iterator2 = new RecursiveIteratorIterator($dir_iterator2);
 // Need to ignore document custom etc. Note: this also ignore natively symbolic links.
 $files = new RegexIterator($iterator2, '#^(?:[A-Z]:)?(?:/(?!(?:custom|documents|conf|install))[^/]+)+/[^/]+\.(?:php|css|html|js|json|tpl|jpg|png|gif|sql|lang)$#i');
@@ -194,12 +194,12 @@ $dir='';
 $needtoclose=0;
 foreach ($files as $filetmp) {
     $file = $filetmp['fullname'];
-    //$newdir = str_replace(dirname(__FILE__).'/../scripts', '', dirname($file));
+    
     $newdir = str_replace(DOL_DOCUMENT_ROOT, '', dirname($file));
     $newdir = str_replace(dirname(__FILE__).'/../scripts', '', dirname($file));
     if ($newdir!=$dir) {
-        if ($needtoclose)
-            fputs($fp, '  </dir>'."\n");
+        if ($needtoclose){
+            fputs($fp, '  </dir>'."\n");}
         fputs($fp, '  <dir name="'.$newdir.'" >'."\n");
         $dir = $newdir;
         $needtoclose=1;
